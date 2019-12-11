@@ -11,6 +11,7 @@ function RentalListing(props) {
     fetchRentals();
   },[fetchRentals]);
 
+  debugger;
     return (
       <div>
         <section id="rentalListing">
@@ -25,4 +26,4 @@ const  mapState = (state)  => {
     rentals: state.data.rentals
   }
 }
-export default connect(mapState, {fetchRentals})(RentalListing)
+export default (connect(mapState, {fetchRentals})(RentalListing));
