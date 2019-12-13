@@ -15,7 +15,7 @@ function RentalDetail(props) {
   }, [ rentalId, fetchRentalById]);
   // CleanUp by dispatching an empty action
   useEffect(() => {
-    return () => {
+    return () => { 
       console.log('Component will Unmount');
       cleanUp()
     };
