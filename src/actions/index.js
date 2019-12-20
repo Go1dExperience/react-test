@@ -7,10 +7,12 @@ export const fetchRentals = () => {
     return dispatch =>  {
       axios.get('/api/v1/rentals')
       .then((rentals) => {
+        debugger;
         dispatch({
           type: FETCH_RENTALS,
           payload: rentals.data
         })
+        debugger;
       })    
     }
 }

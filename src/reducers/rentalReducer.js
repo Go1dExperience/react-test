@@ -7,6 +7,7 @@ const initState = {
 export const rentalReducer = (state = initState, action) => {
     switch(action.type){
         case FETCH_RENTALS:
+            debugger;
             return {
                 ...state,
                 rentals: action.payload

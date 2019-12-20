@@ -6,9 +6,10 @@ import RentalList from './RentalList';
 import {fetchRentals} from '../../../actions';
 
 function RentalListing(props) {
-  const {fetchRentals} = props;
+  const {fetchRentals, rentals} = props;
   useEffect(() => {
     fetchRentals();
+    debugger;
   },[fetchRentals]);
 
   debugger;
@@ -16,12 +17,13 @@ function RentalListing(props) {
       <div>
         <section id="rentalListing">
           <h1 className="page-title">Your Home Around The World</h1>
-          <RentalList rentals = {props.rentals}></RentalList>
+          <RentalList rentals = {rentals}></RentalList>
         </section>
       </div>
     );
 }
 const  mapState = (state)  => { 
+  debugger;
   return {
     rentals: state.data.rentals
   }

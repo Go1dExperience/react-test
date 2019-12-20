@@ -1,4 +1,7 @@
 module.exports = {
+/////////////////////////////////////////////////////////////////////////////////////////
+                                    // MONGOOSE ERROR
+/////////////////////////////////////////////////////////////////////////////////////////
     normalizeErrors: function(errors){
         let normalizeErrors = []
         for (let property in errors){
@@ -7,5 +10,15 @@ module.exports = {
             }
         }
         return normalizeErrors;
+    },
+/////////////////////////////////////////////////////////////////////////////////////////
+                                    // VALIDATION ERROR
+/////////////////////////////////////////////////////////////////////////////////////////
+    validateErrors: function(errors){
+        let validateErrors = []
+        for (let error in errors){
+            validateErrors.push({location: errors[error].param, detail: errors[error].msg})
+        }
+        return validateErrors;
     }
 }

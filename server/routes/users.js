@@ -1,12 +1,15 @@
 const express = require('express');
 const User = require('../controllers/user');
 const router = express.Router();
+const validator = require('../validators/validator');
 
-
-
-// Post to Authenticate
-router.post('/auth', User.auth);
-// Post to register
-router.post('/register', User.register);
+/////////////////////////////////////////////////////////////////////////////////////////
+                                    // AUTH ROUTE
+/////////////////////////////////////////////////////////////////////////////////////////
+router.post('/auth', validator.auth, User.auth);
+/////////////////////////////////////////////////////////////////////////////////////////
+                                    // REGISTER AUTH
+/////////////////////////////////////////////////////////////////////////////////////////
+router.post('/register', validator.register, User.register);
 
 module.exports = router;
