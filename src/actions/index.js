@@ -1,18 +1,20 @@
-import {FETCH_RENTALS, FETCH_BY_ID, CLEAN_UP} from './types';
+import {FETCH_RENTALS, FETCH_BY_ID, CLEAN_UP, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT} from './types';
 import axios from 'axios';
+import authService from '../services/auth-service';
+import axiosService from '../services/axios-service';
 // import {FETCH_BY_ID_SUCCESS} from './types';
 
+const axiosInstance = axiosService.getInstance();
 
+///////////////////////////Rental Actions///////////////////////////
 export const fetchRentals = () => {
     return dispatch =>  {
-      axios.get('/api/v1/rentals')
+      axiosInstance.get('/rentals')
       .then((rentals) => {
-        debugger;
         dispatch({
           type: FETCH_RENTALS,
           payload: rentals.data
         })
-        debugger;
       })    
     }
 }
@@ -50,8 +52,6 @@ export const fetchRentalById = (rentalId) => {
 //     rental
 //   }
 // }
-
-
 // const fetchByIdSuccess = (rental) => {
 //   return {
 //     type: FETCH_BY_ID_SUCCESS,
@@ -63,8 +63,6 @@ export const fetchRentalById = (rentalId) => {
 //     type: FETCH_BY_ID_INIT
 //   }
 // }
-
-
 // export const fetchById = (rentalId) => {
 //   return function(dispatch) {
 //     dispatch(fetchByIdInit());
@@ -75,5 +73,51 @@ export const fetchRentalById = (rentalId) => {
 //     }, 1000);
 
 //   }
-
 // }
+///////////////////////////Auth Actions///////////////////////////
+
+// Register//
+export const register = (data) => {
+  return axios.post('/api/v1/users/register', {...data})
+  .then(
+    (res) => {
+      return res.data
+    })
+  .catch((err) => {
+    return Promise.reject(err.response.data.errors)
+  })
+}
+// Check Auth State
+// Dispatch is required because this is conditional dispatch, without it function will 
+// return null which causes error when dispatching it in App
+export const checkAuthState = () => dispatch => {
+  if(authService.isAuthenticated()){
+    dispatch({
+      type: LOGIN_SUCCESS
+    })
+  }
+}
+
+//Login//
+export const login = (data) => dispatch => {
+   return axios.post('/api/v1/users/auth', {...data})
+   .then(res => res.data)
+   .then(token => {
+     authService.addToken(token);
+     dispatch({
+       type: LOGIN_SUCCESS
+     })
+   })
+   .catch(err => {
+    dispatch({
+      type: LOGIN_FAILURE,
+      errors: err.response.data.errors
+    })
+   })
+}
+export const logOut = () => {
+  authService.removeToken();
+  return {
+    type: LOGOUT
+  }
+}

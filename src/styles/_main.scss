@@ -1,8 +1,12 @@
 @import 'variables.scss';
 @import './header/header.scss';
+@import './form/form.scss';
 @import './rental/rental-listing.scss';
 @import './rental/rental-detail.scss';
 
+body{
+    font-weight: 400;
+}
 .page-title{
     font-size: 30px;
     font-weight: 700;
@@ -17,4 +21,18 @@
 }
 .condo{
     color: #d68000
+}
+.btn-bwm {
+    background-color: white;
+    border-color: $main-color;
+    color: $main-color;
+    border-radius: 0;
+
+    &:hover,
+    &:focus,
+    &:active {
+        border-color: $main-color !important;
+        background-color: $main-color !important;
+        color: white;
+    }
 }
