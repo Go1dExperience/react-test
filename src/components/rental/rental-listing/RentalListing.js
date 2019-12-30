@@ -9,7 +9,6 @@ function RentalListing(props) {
   const {fetchRentals, rentals} = props;
   useEffect(() => {
     fetchRentals();
-    debugger;
   },[fetchRentals]);
 
   debugger;
@@ -23,7 +22,6 @@ function RentalListing(props) {
     );
 }
 const  mapState = (state)  => { 
-  debugger;
   return {
     rentals: state.data.rentals
   }

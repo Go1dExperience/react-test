@@ -38,7 +38,7 @@ exports.auth = function(req, res){
                 return res.json(token);
             } else {
                 return res.status(422)
-                .send({errors: [{title: 'Incorrect Data', detail:'Incorect email or password'}]})
+                .send({errors: [{title: 'Invalid Data', detail:'Invalid email or password'}]})
             }
         })
     }   
@@ -51,7 +51,7 @@ exports.authMiddleware = function(req, res, next){
     
     if(!token){
         return res.status(401)
-        .send({errors: [{title: 'Not Authorized', detail:'You need to login'}]});
+        .send({errors: [{title: 'Not Authorized', detail:'Please login to continue'}]});
     }
     const user = passToken(token);
     User.findById(user.userId, (err, user) => {
@@ -65,7 +65,7 @@ exports.authMiddleware = function(req, res, next){
         }
         else{
             return res.status(401)
-            .send({errors: [{title: 'Not Authorized', detail:'You need to login'}]});
+            .send({errors: [{title: 'Not Authorized', detail:'Please login to continue'}]});
         }
     })
 
