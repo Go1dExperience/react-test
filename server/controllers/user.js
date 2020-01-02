@@ -47,6 +47,7 @@ exports.auth = function(req, res){
                                     // AUTH MIDDLEWARE
 /////////////////////////////////////////////////////////////////////////////////////////
 exports.authMiddleware = function(req, res, next){
+// Request from fron-end comes with config.headers.Authorization.
     const token = req.headers.authorization;
     
     if(!token){
@@ -60,6 +61,7 @@ exports.authMiddleware = function(req, res, next){
             .send({errors: normalizeErrors(err.errors)});    
         }
         if(user){
+// Save user to locals storage
             res.locals.user = user;
             next();
         }
