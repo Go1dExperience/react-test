@@ -7,11 +7,11 @@ import {fetchRentals} from '../../../actions';
 
 function RentalListing(props) {
   const {fetchRentals, rentals} = props;
-  useEffect(() => {
-    fetchRentals();
-  },[fetchRentals]);
 
-  debugger;
+  useEffect(() => {
+    fetchRentals()
+  }, [fetchRentals]);
+
     return (
       <div>
         <section id="rentalListing">

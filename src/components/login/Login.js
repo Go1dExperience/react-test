@@ -10,12 +10,12 @@ function Login(props) {
 // Check if state exists first, if not we can't get into state.from, which would throw an error
 // If it doesn't exist, set default to /rentals
 // from.pathname because we send the whole location object as from.
-debugger;
     const pathname = (location.state && location.state.from) ? location.state.from.pathname : '/rentals';
 // auth state and errors come from action dispatch
     const {isAuth, errors} = auth;
     const {successRegister} = location.state || false;
     const loginUser = (values) => {
+      debugger;
       login(values);
     }
     if(isAuth){
@@ -53,7 +53,6 @@ debugger;
 }
 
 const mapState = (state) => {
-  debugger;
   return{
     auth: state.auth
   }
