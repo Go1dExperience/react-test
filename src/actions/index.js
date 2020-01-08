@@ -74,6 +74,19 @@ export const fetchRentalById = (rentalId) => {
 
 //   }
 // }
+/////////////////////////////////////////////////////////////////////
+///////////////////////////Booking Actions///////////////////////////
+export const createBooking = (booking) => {
+  debugger;
+  return axiosInstance.post('/bookings', {...booking})
+    .then(res => res.data)
+    .catch(err => Promise.reject(err.response.data.errors))
+    
+}
+
+
+
+/////////////////////////////////////////////////////////////////////
 ///////////////////////////Auth Actions///////////////////////////
 
 // Register//
@@ -100,6 +113,7 @@ export const checkAuthState = () => dispatch => {
 
 //Login//
 export const login = (data) => dispatch => {
+  debugger;
    return axios.post('/api/v1/users/auth', {...data})
    .then(res => res.data)
    .then(token => {
@@ -121,3 +135,4 @@ export const logOut = () => {
     type: LOGOUT
   }
 }
+/////////////////////////////////////////////////////////////////////

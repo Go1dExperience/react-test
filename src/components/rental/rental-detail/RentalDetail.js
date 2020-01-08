@@ -5,22 +5,22 @@ import RentalDetailInfo from './RentalDetailInfo';
 // import RentalMap from './RentalMap';
 
 import {fetchRentalById, cleanUp} from '../../../actions';
+import Booking from "../../booking/Booking";
 
 function RentalDetail(props) {
   const {rental, fetchRentalById, cleanUp } = props;
   let rentalId = props.match.params.id;
   // Fetch Rentals
   useEffect(() => {
+    console.log('Fetch by id')
     fetchRentalById(rentalId);
-  }, [ rentalId, fetchRentalById]);
-  // CleanUp by dispatching an empty action
-  useEffect(() => {
+// CleanUp by returning an empty rental, making it display loading
     return () => { 
       console.log('Component will Unmount');
       cleanUp()
     };
-  }, [cleanUp])
-  // Check for Id
+  }, [ rentalId, fetchRentalById, cleanUp]);
+
   if(rental._id)
   {return (
      <section id="rentalDetails">
@@ -40,9 +40,14 @@ function RentalDetail(props) {
            <div className="col-md-8">
              <RentalDetailInfo rental={rental}></RentalDetailInfo>
            </div>
-           <div className="col-md-4"> BOOKING</div>
+           <div className="col-md-4"><Booking rental={rental}></Booking></div>
          </div>
        </div>
+       <br></br>
+       <br></br>
+       <br></br>
+       <br></br>
+       <br></br>
      </section>
    );}
   else{

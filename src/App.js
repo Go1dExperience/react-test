@@ -15,6 +15,7 @@ import RentalDetail from './components/rental/rental-detail/RentalDetail';
 
 
 
+
 function App() {
 
 

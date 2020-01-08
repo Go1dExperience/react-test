@@ -6,10 +6,15 @@ const moment = require('moment');
 
 
 exports.createBooking = function(req, res) {
-    const {startAt, endAt, totalPrice, guests, days, rental} = req.body
+    let {startAt, endAt, totalPrice, guests, days, rental} = req.body;
+    console.log(startAt, endAt, totalPrice, guests, days);
+    startAt = moment(startAt, 'Y/MM/DD').add(1, 'day');
+
+    endAt = moment(endAt, 'Y/MM/DD');
 // User was saved by User Controller. 
     const user = res.locals.user;
     const booking = new Booking({startAt, endAt, totalPrice, guests, days});
+    console.log(booking);
 
     Rental.findById(rental._id)
     .populate('bookings')
@@ -23,7 +28,12 @@ exports.createBooking = function(req, res) {
             return res.status(422)
             .send({errors: [{title: 'Invalid User', detail:'Cannot book your own rental'}]})
         }
+        if(!startAt || !endAt || !guests){
+            return res.status(422)
+            .send({errors: [{title: 'Invalid Booking', detail:'Please fill in all the information'}]})
+        }
         if(validBooking(booking, foundRental)){
+// Update booking
             booking.user = user;
             booking.rental = foundRental;
             foundRental.bookings.push(booking);
@@ -33,6 +43,7 @@ exports.createBooking = function(req, res) {
                     return res.status(422).send({errors: normalizeErrors(err.errors)})
                 }
                 foundRental.save(); 
+                console.log(booking.startAt, booking.endAt);
 // Because saving here will cause pre-save hook in user model to change password
 // we have to change it to update method
                 User.updateOne({_id: user.id}, {$push: {
