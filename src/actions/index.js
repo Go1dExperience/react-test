@@ -1,4 +1,4 @@
-import {FETCH_RENTALS, FETCH_BY_ID, CLEAN_UP, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT} from './types';
+import {FETCH_RENTALS, FETCH_BY_ID, CLEAN_UP, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, FETCH_ERRORS, CLEAN_UP_RENTALS} from './types';
 import axios from 'axios';
 import authService from '../services/auth-service';
 import axiosService from '../services/axios-service';
@@ -7,15 +7,24 @@ import axiosService from '../services/axios-service';
 const axiosInstance = axiosService.getInstance();
 
 ///////////////////////////Rental Actions///////////////////////////
-export const fetchRentals = () => {
+export const fetchRentals = (city) => {
+  // If no city is provided, search for all rentals
+  const url = city ? `/rentals?city=${city}` : '/rentals';
     return dispatch =>  {
-      axiosInstance.get('/rentals')
-      .then((rentals) => {
+      axiosInstance.get(url)
+      .then(rentals => {
         dispatch({
           type: FETCH_RENTALS,
           payload: rentals.data
         })
-      })    
+      })
+      .catch(err => {
+        debugger;
+        dispatch({
+          type: FETCH_ERRORS,
+          payload: err.response.data.errors
+        })
+      })  
     }
 }
 // CleanUp by empty object
@@ -46,23 +55,14 @@ export const fetchRentalById = (rentalId) => {
     // }, 1000);
     }
 }
-// const fetchRentalByIdSuccess = (rental) => {
-//   return {
-//     type: FETCH_BY_ID_SUCCESS,
-//     rental
-//   }
-// }
-// const fetchByIdSuccess = (rental) => {
-//   return {
-//     type: FETCH_BY_ID_SUCCESS,
-//     rental
-//   }
-// }
-// const fetchByIdInit = () => {
-//   return {
-//     type: FETCH_BY_ID_INIT
-//   }
-// }
+export const cleanUpRentals = () => {
+  return dispatch => {
+    dispatch({
+      type: CLEAN_UP_RENTALS,
+      payload: {}
+    })
+  }
+}
 // export const fetchById = (rentalId) => {
 //   return function(dispatch) {
 //     dispatch(fetchByIdInit());
@@ -74,6 +74,12 @@ export const fetchRentalById = (rentalId) => {
 
 //   }
 // }
+// Create Rental
+export const createRental = (data) => {
+  return axiosInstance.post('/rentals', data)
+    .then(res => res.data)
+    .catch(err => Promise.reject(err.response.data.errors))
+}
 /////////////////////////////////////////////////////////////////////
 ///////////////////////////Booking Actions///////////////////////////
 export const createBooking = (booking) => {
@@ -83,15 +89,11 @@ export const createBooking = (booking) => {
     .catch(err => Promise.reject(err.response.data.errors))
     
 }
-
-
-
 /////////////////////////////////////////////////////////////////////
 ///////////////////////////Auth Actions///////////////////////////
-
 // Register//
 export const register = (data) => {
-  return axios.post('/api/v1/users/register', {...data})
+  return axios.post('/api/v1/users/register', data)
   .then(
     (res) => {
       return res.data
@@ -105,21 +107,24 @@ export const register = (data) => {
 // return null which causes error when dispatching it in App
 export const checkAuthState = () => dispatch => {
   if(authService.isAuthenticated()){
+    const username = authService.getUsername();
     dispatch({
-      type: LOGIN_SUCCESS
+      type: LOGIN_SUCCESS,
+      username
     })
   }
 }
-
 //Login//
 export const login = (data) => dispatch => {
-  debugger;
-   return axios.post('/api/v1/users/auth', {...data})
+
+   return axios.post('/api/v1/users/auth', data)
    .then(res => res.data)
    .then(token => {
      authService.addToken(token);
+     const username = authService.getUsername();
      dispatch({
-       type: LOGIN_SUCCESS
+       type: LOGIN_SUCCESS,
+       username
      })
    })
    .catch(err => {

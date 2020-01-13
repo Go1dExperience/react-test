@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 
 import 'bootstrap-daterangepicker/daterangepicker.css';
 import 'react-toastify/dist/ReactToastify.css';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import 'font-awesome/css/font-awesome.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import 'bootstrap/dist/js/bootstrap.min';

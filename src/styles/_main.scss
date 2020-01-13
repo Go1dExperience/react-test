@@ -5,6 +5,10 @@
 @import './rental/rental-detail.scss';
 @import './booking/booking.scss';
 
+html, body, #root, #root>div {
+    height: 100%;
+    margin: 0;
+}
 body{
     font-weight: 400;
 }

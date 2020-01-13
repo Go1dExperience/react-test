@@ -2,8 +2,11 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Link, withRouter} from 'react-router-dom';
 
+import RentalSearchInput from '../rental/RentalSearchInput';
+
 function Header(props) {
     const {auth, logOut, history} = props;
+    const {isAuth, username} = auth;
     const handleLogout = () => {
         logOut();
         history.push('/rentals');
@@ -24,21 +27,37 @@ function Header(props) {
             </React.Fragment>
         )
     }
+    const renderOwner = () => {
+        
+        if(isAuth){
+            return (
+                <div className="nav-item dropdown">
+                    <button className="nav-link clickable nav-item dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Owner Section
+                    </button>
+                    <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <Link className="dropdown-item" to="/rentals/create">Create Rental</Link>
+                        <Link className="dropdown-item" to="/rentals">Manage Rentals</Link>
+                        <Link className="dropdown-item" to="/rentals">Manage Bookings</Link>
+                    </div>
+                </div>
+            )
+        }
+    }
 
     return (     
             <nav className="navbar navbar-dark navbar-expand-lg">
                 <div className="container">
                     <Link className="navbar-brand" to="/rentals">BookWithMe</Link>
-                    <form className="form-inline my-2 my-lg-0">
-                        <input type="search" className="form-control mr-sm-2 bwm-search" placeholder="Try 'New York'" aria-label="Search"></input>
-                        <button className="btn btn-outline-success my-2 my-sm-0 btn-bwm-search" type="submit">Search</button>
-                    </form>
+                   <RentalSearchInput></RentalSearchInput>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarAltMarkUp">
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarAltMarkUp">
-                        <div className="navbar-nav ml-auto">         
-                           {renderNavBtn()}
+                        <div className="navbar-nav ml-auto">  
+                            {isAuth && <button className="nav-item clickable nav-link">{username}</button>}
+                        {renderOwner()}
+                        {renderNavBtn()}
                         </div>
                     </div>
                 </div>

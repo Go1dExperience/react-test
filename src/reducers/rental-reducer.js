@@ -1,8 +1,9 @@
-import { FETCH_RENTALS, FETCH_BY_ID, CLEAN_UP } from "../actions/types"
+import { FETCH_RENTALS, FETCH_BY_ID, CLEAN_UP, FETCH_ERRORS, CLEAN_UP_RENTALS } from "../actions/types"
 
 const initState = {
     rentals: [],
-    rental: {}
+    rental: {},
+    errors: []
 }
 export const rentalReducer = (state = initState, action) => {
     switch(action.type){
@@ -19,7 +20,19 @@ export const rentalReducer = (state = initState, action) => {
         case CLEAN_UP:
             return {
                 ...state,
-                rental: action.payload
+                rental: action.payload,
+                errors: []
+            }
+        case CLEAN_UP_RENTALS:
+            return {
+                ...state,
+                rentals: []
+            }
+// If no rentals found when searching by cities
+        case FETCH_ERRORS: 
+            return {
+                ...state,
+                errors: action.payload
             }        
         default: 
             return state

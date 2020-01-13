@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-
+import LoadingIcon from '../../shared/LoadingIcon';
 import RentalDetailInfo from './RentalDetailInfo';
 // import RentalMap from './RentalMap';
 
@@ -51,7 +51,9 @@ function RentalDetail(props) {
      </section>
    );}
   else{
-      return(<h1>Loading...</h1>)
+    return(
+      <LoadingIcon></LoadingIcon>
+    ) 
   }
 }
 const mapState = state => {
