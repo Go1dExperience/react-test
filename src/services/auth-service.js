@@ -22,6 +22,10 @@ class AuthService {
         localStorage.removeItem('auth_token');
     }
 
+    getUsername() {
+        return jwt.decode(this.getToken()).username;
+    }
+
     isAuthenticated() {
         const token = this.getToken();
         return (token && this.isValid(token)) ? true : false     

@@ -1,17 +1,20 @@
 import React, {useEffect} from 'react';
 import { connect } from 'react-redux';
 import RentalList from './RentalList';
-
+import LoadingIcon from '../../shared/LoadingIcon';
 // import * as actions from '../../actions';
-import {fetchRentals} from '../../../actions';
+import {fetchRentals, cleanUpRentals} from '../../../actions';
 
 function RentalListing(props) {
-  const {fetchRentals, rentals} = props;
+  const {fetchRentals, rentals, cleanUpRentals} = props;
 
   useEffect(() => {
-    fetchRentals()
-  }, [fetchRentals]);
-
+    fetchRentals();
+    return () => {
+      cleanUpRentals();
+    }
+  }, [fetchRentals, cleanUpRentals]);
+  if(rentals.length > 0){
     return (
       <div>
         <section id="rentalListing">
@@ -19,11 +22,17 @@ function RentalListing(props) {
           <RentalList rentals = {rentals}></RentalList>
         </section>
       </div>
-    );
+    ); 
+  }
+  else {
+    return(
+      <LoadingIcon></LoadingIcon>
+    )
+  }
 }
 const  mapState = (state)  => { 
   return {
     rentals: state.data.rentals
   }
 }
-export default (connect(mapState, {fetchRentals})(RentalListing));
+export default (connect(mapState, {fetchRentals, cleanUpRentals})(RentalListing));

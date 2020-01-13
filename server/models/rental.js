@@ -14,7 +14,7 @@ const rentalSchema = new Schema({
     required: true,
     min: [4, "Too short, min is 4 characters"]
   },
-  category: { type: String, required: true, lowercase: true },
+  category: { type: String, lowercase: true },
   image: { type: String, required: true },
   bedrooms: Number,
   shared: Boolean,

@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Route, Redirect} from 'react-router-dom';
+import {BrowserRouter, Route, Redirect, Switch} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import {checkAuthState, logOut} from './actions'
 
@@ -12,6 +12,8 @@ import LoggedInRoute from './components/shared/auth/LoggedInRoute';
 
 import RentalListing from './components/rental/rental-listing/RentalListing';
 import RentalDetail from './components/rental/rental-detail/RentalDetail';
+import RentalSearching from './components/rental/rental-listing/RentalSearching';
+import RentalCreate from './components/rental/rental-create/RentalCreate';
 
 
 
@@ -33,11 +35,16 @@ function App() {
       <div className="App">
           <Header logOut = {LogOut}></Header>
           <div className="container">
-            <Route exact path="/" render={() =>  <Redirect to="/rentals"></Redirect> }></Route>
-            <Route exact path="/rentals" component={RentalListing}></Route>
-            <ProtectedRoute path="/rentals/:id" component={RentalDetail}></ProtectedRoute>
-            <Route path="/login" component={Login} ></Route>
-            <LoggedInRoute path="/register" component={Register} ></LoggedInRoute>
+            <Switch>
+              <Route exact path="/" render={() =>  <Redirect to="/rentals"></Redirect> }></Route>
+              <Route exact path="/rentals" component={RentalListing}></Route>
+  {/* Specific routes should be above, otherwise both are called */}
+              <ProtectedRoute exact path="/rentals/create" component={RentalCreate}></ProtectedRoute>
+              <ProtectedRoute exact path="/rentals/:id" component={RentalDetail}></ProtectedRoute>
+              <Route path="/login" component={Login} ></Route>
+              <LoggedInRoute path="/register" component={Register} ></LoggedInRoute>
+              <Route exact path="/rentals/:city/homes" component={RentalSearching}></Route>
+            </Switch>
           </div> 
       </div>
       </BrowserRouter>

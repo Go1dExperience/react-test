@@ -53,49 +53,49 @@ export default function Booking({ rental }) {
     }
   };
 // Handle Apply event
-const handleApply = (event, picker) => {
-  const startAt = picker.startDate.format('Y/MM/DD');
-  const endAt = picker.endDate.format('Y/MM/DD');
-  setNewBooking({...newBooking, startAt, endAt});
-  bookingRef.current.value= startAt + ' - ' + endAt;
-}
-// Handle Guest Select
-const selectGuests = (event) => {
-  setNewBooking({...newBooking, guests: parseInt(event.target.value)})
-}
-// Click Book
-const confirmData = () => {
-  const {startAt, endAt} = newBooking;
-  const days = getRangeOfDates(startAt, endAt).length - 1;
-  setNewBooking({
-    ...newBooking,
-    days,
-    totalPrice: rental.dailyRate*days,
-    rental
-  })
-  setOpen(true);
-}
-const cancelConfirm = () => {
-  setOpen(false);
-}
-const bookRental = () => {
-  createBooking(newBooking)
-  .then((res) => {
-    newBookedDate(res);
-    cancelConfirm();
-    bookingRef.current.value= '';
-    setNewBooking({guests: ''});
-    toast.success('Booking has been successfully created! Enjoy your stay')
-  })
-  .catch((errors) => {
-    setErrors(errors);
-  })
-}
-// bookRental returns start and end day as res, so we want to disable these days immidiately
-const newBookedDate = (booking) => {
-  const newlybookedDates = getRangeOfDates(booking.startAt, booking.endAt);
-  bookedDates.push(...newlybookedDates)
-}
+  const handleApply = (event, picker) => {
+    const startAt = picker.startDate.format('Y/MM/DD');
+    const endAt = picker.endDate.format('Y/MM/DD');
+    setNewBooking({...newBooking, startAt, endAt});
+    bookingRef.current.value= startAt + ' - ' + endAt;
+  }
+  // Handle Guest Select
+  const selectGuests = (event) => {
+    setNewBooking({...newBooking, guests: parseInt(event.target.value)})
+  }
+  // Click Book
+  const confirmData = () => {
+    const {startAt, endAt} = newBooking;
+    const days = getRangeOfDates(startAt, endAt).length - 1;
+    setNewBooking({
+      ...newBooking,
+      days,
+      totalPrice: rental.dailyRate*days,
+      rental
+    })
+    setOpen(true);
+  }
+  const cancelConfirm = () => {
+    setOpen(false);
+  }
+  const bookRental = () => {
+    createBooking(newBooking)
+    .then((res) => {
+      newBookedDate(res);
+      cancelConfirm();
+      bookingRef.current.value= '';
+      setNewBooking({guests: ''});
+      toast.success('Booking has been successfully created! Enjoy your stay')
+    })
+    .catch((errors) => {
+      setErrors(errors);
+    })
+  }
+  // bookRental returns start and end day as res, so we want to disable these days immidiately
+  const newBookedDate = (booking) => {
+    const newlybookedDates = getRangeOfDates(booking.startAt, booking.endAt);
+    bookedDates.push(...newlybookedDates)
+  }
   const {startAt, endAt, guests} = newBooking;
   return (
     <div className="booking">

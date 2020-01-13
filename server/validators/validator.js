@@ -30,3 +30,15 @@ exports.auth = [
     check('password').not().isEmpty().withMessage('Please fill in your password')
     .isLength({min: 4, max: 128}).withMessage('Must be between 4 and 128 characters')
 ]
+/////////////////////////////////////////////////////////////////////////////////////////
+                                    // CREATE RENTAL
+/////////////////////////////////////////////////////////////////////////////////////////
+exports.createRental = [
+    check('title').not().isEmpty().withMessage('Please enter a title for this rental'),
+    check('description').not().isEmpty().withMessage('Please describe this property')
+    .isLength({min: 4, max: 128}).withMessage('Description must be between 4 and 128 characters'),
+    check('city').not().isEmpty().withMessage('Please enter the city of this rental'),
+    check('street').not().isEmpty().withMessage('Please provide the street name of this rental'),
+    check('bedrooms').not().isEmpty().withMessage('Please enter the number of bedrooms'),
+    check('dailyRate').not().isEmpty().withMessage('Please enter a price you wish'),
+]
