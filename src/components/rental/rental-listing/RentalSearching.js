@@ -4,12 +4,10 @@ import {connect} from 'react-redux';
 import {fetchRentals, cleanUpRentals} from '../../../actions';
 
 function RentalSearching(props) {
-    debugger;
     const city = props.match.params.city;
     const {fetchRentals, rentals, cleanUpRentals} = props;
     
     useEffect(() => {
-        debugger;
         fetchRentals(city);
         return () => {
             cleanUpRentals();
@@ -38,9 +36,7 @@ function RentalSearching(props) {
                     <RentalList rentals={rentals.rentals}></RentalList>
                 </section>
             </div>
-        )
-    
-   
+        ) 
 }
 
 const  mapState = (state)  => { 
