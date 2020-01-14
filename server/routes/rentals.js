@@ -10,6 +10,19 @@ const {validationResult} = require('express-validator');
 router.get('/secret', userCtrl.authMiddleware, (req, res) => {
     res.json({"secret": true});
 });
+// Remember placeholder should be last in order
+router.get('/manage', userCtrl.authMiddleware, function(req, res) {
+    const user = res.locals.user;
+// Wherer is like findOne with user query 
+    Rental.where({user})
+        .populate('bookings')
+        .exec(function(err, rentals) {
+            if(err) {
+                return res.status(422).send({errors: normalizeErrors(err.errors)})
+            }
+            return res.json(rentals);
+        })
+})
 // Find Rental
 router.get('/:id', (req, res) => {
 
@@ -64,8 +77,46 @@ router.post('', userCtrl.authMiddleware, createRental ,(req, res) => {
             console.log(rental);
             return res.json(rental)
         })
-    }
-   
+    }  
 })
+// Delete Rental Endpoint
+router.delete('/:id', userCtrl.authMiddleware, function(req, res) {
+    const user = res.locals.user;
+
+    Rental.findById(req.params.id)
+    .populate('user', '_id')
+    .populate({
+        path: 'bookings',
+        select: 'startAt',
+        match: {
+            startAt: {$gt: new Date()}
+        }
+    })
+    .exec(function(err, rental) {
+        if(err) {
+            return res.status(422).send({errors: normalizeErrors(err.errors)})
+        }
+// If not your own rental
+        if(user.id !== rental.user.id) {
+            return res.status(422).send({errors: 
+                [{title: 'Unable to delete this property', detail: "Cannot delete properties you do not own"}]
+            })
+        }
+// If active bookings
+        if(rental.bookings.length > 0) {
+            return res.status(422).send({errors: 
+                [{title: 'Active bookings found', detail: 'This property has active bookings'}]
+            })
+        }
+        rental.remove(function(err, rental) {
+            if(err) {
+                return res.status(422).send({errors: normalizeErrors(err.errors)})
+            }   
+            return res.json({'Deleted': true});  
+        })
+    })
+})
+// Manage section
 
 module.exports = router;
+
