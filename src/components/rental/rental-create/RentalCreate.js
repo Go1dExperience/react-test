@@ -8,9 +8,8 @@ function RentalCreate(props) {
     const {history} = props;
     const createNewRental = (values) => {
         createRental(values)
-        .then(res => {console.log(res); history.push('/rentals')})
+        .then(res => history.push('/rentals'))
         .catch(err => {
-            console.log(err);
             setErrors(err);
         });
     }

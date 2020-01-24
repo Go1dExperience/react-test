@@ -28,7 +28,6 @@ export default function RentalDetailInfo({rental}) {
         </div>
         <p className="rental-description">{rental.description}</p>
         <hr></hr>
-        {/* Assets */}
         <RentalAssets></RentalAssets>
       </div>
     );

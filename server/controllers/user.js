@@ -4,7 +4,7 @@
 const User = require('../models/user');
 const {normalizeErrors, validateErrors} = require('../helpers/mongoose');
 const jwt = require('jsonwebtoken');
-const config =  require('../config/dev');
+const config =  require('../config');
 const {validationResult} = require('express-validator');
 
 /////////////////////////////////////////////////////////////////////////////////////////

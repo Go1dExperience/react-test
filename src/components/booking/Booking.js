@@ -87,11 +87,9 @@ function Booking(props) {
     createBooking(newBooking)
     .then((booking) => {
       newBookedDate(booking);
-      console.log(booking);
       setOpen(false);
       bookingRef.current.value= '';
       setNewBooking({...newBooking, guests:'', startAt: '', endAt: ''});
-
       toast.success('Booking has been successfully created! Enjoy your stay')
     })
     .catch((errors) => {
@@ -104,7 +102,7 @@ function Booking(props) {
     bookedDates.push(...newlybookedDates)
   }
   const {startAt, endAt, guests} = newBooking;
-  console.log(props);
+  
   return (
     <div className="booking">
       <ToastContainer></ToastContainer>
@@ -159,10 +157,8 @@ function Booking(props) {
     </div>
   );
 }
-const mapState = (state) => {
-  return { 
+const mapState = (state) => ({
     auth: state.auth
-  }
-}
+})
 
 export default connect(mapState)(Booking)
