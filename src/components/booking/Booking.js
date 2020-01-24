@@ -1,15 +1,20 @@
-import React, {useCallback, useMemo, useState, useRef} from "react";
+import React, {useCallback, useMemo ,useState, useRef} from "react";
 import DateRangePicker from "react-bootstrap-daterangepicker";
 import { ToastContainer, toast } from 'react-toastify';
 import { getRangeOfDates } from "../../helpers";
 import moment from "moment";
 import BookingModal from './BookingModal';
 import {createBooking} from '../../actions';
+import {connect} from 'react-redux';
+import { Link } from "react-router-dom";
 
-export default function Booking({ rental }) {
 
-  const { bookings } = rental;
-  let bookedDates = []
+function Booking(props) {
+
+  const {rental, auth: {isAuth}, path} = props;
+// Path is passed from RentalDetail to know where the previous page was
+  const {bookings} = rental;
+  
 // Create newBooking state
   const [newBooking, setNewBooking] = useState({
     startAt: '',
@@ -31,12 +36,12 @@ export default function Booking({ rental }) {
         const dateRange = getRangeOfDates(booking.startAt, booking.endAt, "Y/MM/DD");
         booked.push(...dateRange);
       });
-      console.log(booked);
-      return booked
     }
+    return booked;
   }, [bookings]);
 // Don't calculate bookedDates again, unless bookings changes
-  bookedDates = useMemo(() => getBookedDates(), [getBookedDates])
+  // let bookedDates = getBookedDates();
+  let bookedDates = useMemo(() => getBookedDates(), [getBookedDates]);
 // Run this through every day in the calenda as 'date', check if bookedDates contains it,
     // Or if it is earlier than today
   const checkInvalidDate = date => {
@@ -80,11 +85,13 @@ export default function Booking({ rental }) {
   }
   const bookRental = () => {
     createBooking(newBooking)
-    .then((res) => {
-      newBookedDate(res);
-      cancelConfirm();
+    .then((booking) => {
+      newBookedDate(booking);
+      console.log(booking);
+      setOpen(false);
       bookingRef.current.value= '';
-      setNewBooking({guests: ''});
+      setNewBooking({...newBooking, guests:'', startAt: '', endAt: ''});
+
       toast.success('Booking has been successfully created! Enjoy your stay')
     })
     .catch((errors) => {
@@ -97,6 +104,7 @@ export default function Booking({ rental }) {
     bookedDates.push(...newlybookedDates)
   }
   const {startAt, endAt, guests} = newBooking;
+  console.log(props);
   return (
     <div className="booking">
       <ToastContainer></ToastContainer>
@@ -105,33 +113,41 @@ export default function Booking({ rental }) {
         <span className="booking-per-night">per night</span>
       </h3>
       <hr></hr>
-      <div className="form-group">
-        <label htmlFor="dates">Dates</label>
-        <DateRangePicker
-          opens="left"
-          isInvalidDate={checkInvalidDate}
-          containerStyles={{ display: "block" }}
-          onApply={handleApply}
-        >
-          <input ref={bookingRef} id="dates" type="text" className="form-control"></input>
-        </DateRangePicker>
-      </div>
-      <div className="form-group">
-        <label htmlFor="guests">Guests</label>
-        <input
-          onChange={(event) => selectGuests(event)}
-          type="number"
-          min="0"
-          value={guests}
-          className="form-control"
-          id="guests"
-          aria-describedby="guests"
-          placeholder=""
-        ></input>
-      </div>
-      <button disabled={!startAt || !endAt || !guests || guests < 0} onClick={() => confirmData()} className="btn btn-bwm btn-confirm btn-block">
-        Reserve place now
-      </button>
+        {!isAuth && 
+          <Link className="btn btn-bwm btn-confirm btn-block" to={{pathname: '/login',state: {from: path}}}>
+            Login to book a place right now!
+          </Link>
+        }
+        {isAuth &&
+          <React.Fragment>
+            <div className="form-group">
+            <label htmlFor="dates">Dates</label>
+            <DateRangePicker
+              opens="left"
+              isInvalidDate={checkInvalidDate}
+              containerStyles={{ display: "block" }}
+              onApply={handleApply}
+            >
+              <input ref={bookingRef} id="dates" type="text" className="form-control"></input>
+            </DateRangePicker>
+          </div>
+          <div className="form-group">
+            <label htmlFor="guests">Guests</label>
+            <input
+              onChange={(event) => selectGuests(event)}
+              type="number"
+              min="0"
+              value={guests}
+              className="form-control"
+              id="guests"
+              aria-describedby="guests"
+              placeholder=""
+            ></input>
+          </div>
+          <button disabled={!startAt || !endAt || !guests || guests < 0} onClick={() => confirmData()} className="btn btn-bwm btn-confirm btn-block">
+            Reserve place now
+          </button>
+          </React.Fragment>}
       <hr></hr>
       <p className="booking-note-title">
         People are interested into this house
@@ -143,3 +159,10 @@ export default function Booking({ rental }) {
     </div>
   );
 }
+const mapState = (state) => {
+  return { 
+    auth: state.auth
+  }
+}
+
+export default connect(mapState)(Booking)

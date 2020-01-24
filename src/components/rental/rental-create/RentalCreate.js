@@ -7,7 +7,6 @@ function RentalCreate(props) {
     const [errors, setErrors] = useState([]);
     const {history} = props;
     const createNewRental = (values) => {
-        debugger;
         createRental(values)
         .then(res => {console.log(res); history.push('/rentals')})
         .catch(err => {

@@ -7,12 +7,13 @@ export const rentalType = (isShared) => {
 export const toUpperCase = (value) => {
     return value ? titleize(value) : ''
 }
+export const prettifyDate = (date) => {
+    return moment(date).format("MMM Do YY");
+}
 export const getRangeOfDates = (start, end, dateFormat = 'Y/MM/DD') => {
     const tempDates = []
-    debugger;
     const mEnd = moment(end, dateFormat);
     let mStart = moment(start, dateFormat);
-    debugger;
 // Turning startAt and endAt into actualy day, then calculate how many days between start and end
 // E.x: from 3-15 the tempDates array wil be [3,4...,15]
     while (mStart < mEnd) {

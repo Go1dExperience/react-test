@@ -15,7 +15,6 @@ function Login(props) {
     const {isAuth, errors} = auth;
     const {successRegister} = location.state || false;
     const loginUser = (values) => {
-      debugger;
       login(values);
     }
     if(isAuth){

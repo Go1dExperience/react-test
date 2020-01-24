@@ -10,6 +10,7 @@ import Booking from "../../booking/Booking";
 function RentalDetail(props) {
   const {rental, fetchRentalById, cleanUp } = props;
   let rentalId = props.match.params.id;
+  let path = props.location
   // Fetch Rentals
   useEffect(() => {
     console.log('Fetch by id')
@@ -40,7 +41,7 @@ function RentalDetail(props) {
            <div className="col-md-8">
              <RentalDetailInfo rental={rental}></RentalDetailInfo>
            </div>
-           <div className="col-md-4"><Booking rental={rental}></Booking></div>
+           <div className="col-md-4"><Booking rental={rental} path={path}></Booking></div>
          </div>
        </div>
        <br></br>

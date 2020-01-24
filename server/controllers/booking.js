@@ -43,14 +43,14 @@ exports.createBooking = function(req, res) {
                     return res.status(422).send({errors: normalizeErrors(err.errors)})
                 }
                 foundRental.save(); 
-                console.log(booking.startAt, booking.endAt);
+                console.log('booking.startAt, booking.endAt');
 // Because saving here will cause pre-save hook in user model to change password
 // we have to change it to update method
                 User.updateOne({_id: user.id}, {$push: {
                     bookings: booking
                 }
             }, function(err){
-                console.log(err);
+                console.log('err');
             })
         });       
         return res.json({startAt: booking.startAt, endAt: booking.endAt});
