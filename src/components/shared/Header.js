@@ -22,7 +22,7 @@ function Header(props) {
         }
         return (
             <React.Fragment>
-                <Link to="/login" className="nav-item nav-link active">Login <span className="sr-only">(current)</span></Link>
+                <Link to="/login" className="nav-item nav-link">Login <span className="sr-only">(current)</span></Link>
                 <Link to="/register" className="nav-item nav-link">Register</Link>
             </React.Fragment>
         )

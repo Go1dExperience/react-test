@@ -48,10 +48,8 @@ function BookingManage(props) {
     }   
 }
 
-const mapState = (state) => {
-    return {
-        data: state.bookings
-    }
-}
+const mapState = (state) => ({   
+    data: state.bookings   
+})
 
 export default (connect(mapState, {fetchUserBookings, cleanUpBookings})(BookingManage));

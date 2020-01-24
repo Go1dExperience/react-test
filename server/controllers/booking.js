@@ -7,14 +7,13 @@ const moment = require('moment');
 
 exports.createBooking = function(req, res) {
     let {startAt, endAt, totalPrice, guests, days, rental} = req.body;
-    console.log(startAt, endAt, totalPrice, guests, days);
     startAt = moment(startAt, 'Y/MM/DD').add(1, 'day');
 
     endAt = moment(endAt, 'Y/MM/DD');
 // User was saved by User Controller. 
     const user = res.locals.user;
     const booking = new Booking({startAt, endAt, totalPrice, guests, days});
-    console.log(booking);
+
 
     Rental.findById(rental._id)
     .populate('bookings')
@@ -43,14 +42,12 @@ exports.createBooking = function(req, res) {
                     return res.status(422).send({errors: normalizeErrors(err.errors)})
                 }
                 foundRental.save(); 
-                console.log('booking.startAt, booking.endAt');
 // Because saving here will cause pre-save hook in user model to change password
 // we have to change it to update method
                 User.updateOne({_id: user.id}, {$push: {
                     bookings: booking
                 }
             }, function(err){
-                console.log('err');
             })
         });       
         return res.json({startAt: booking.startAt, endAt: booking.endAt});

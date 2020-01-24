@@ -19,7 +19,6 @@ export const fetchRentals = (city) => {
         })
       })
       .catch(err => {
-  
         dispatch({
           type: FETCH_ERRORS,
           payload: err.response.data.errors
@@ -28,33 +27,31 @@ export const fetchRentals = (city) => {
     }
 }
 // CleanUp by empty object
-export const cleanUp = () => {
-  return dispatch => {
-    dispatch({
-      type: CLEAN_UP,
-      payload: {}
-    })
-  }
+export const cleanUp = () => dispatch => {
+  dispatch({
+    type: CLEAN_UP,
+    payload: {}
+  })
 }
-export const fetchRentalById = (rentalId) => {
-  return dispatch => {  
+
+export const fetchRentalById = (rentalId) =>  dispatch => {  
     // Stimulate a server call
-    axios.get(`/api/v1/rentals/${rentalId}`)
-    .then((rental) => {
-      dispatch({
-      type: FETCH_BY_ID,
-      payload: rental.data
-    })})
-    // setTimeout(() => {
-    //   const rental = rentals.find(Rental => Rental.id === rentalId);
-    //   // dispatch(fetchRentalByIdSuccess(rental))
-    //   dispatch({
-    //     type: FETCH_BY_ID,
-    //     payload: rental
-    //   })
-    // }, 1000);
-    }
-}
+  axios.get(`/api/v1/rentals/${rentalId}`)
+  .then((rental) => {
+    dispatch({
+    type: FETCH_BY_ID,
+    payload: rental.data
+  })})
+  // setTimeout(() => {
+  //   const rental = rentals.find(Rental => Rental.id === rentalId);
+  //   // dispatch(fetchRentalByIdSuccess(rental))
+  //   dispatch({
+  //     type: FETCH_BY_ID,
+  //     payload: rental
+  //   })
+  // }, 1000);
+  }
+
 // Fetch a user's rentals
 export const fetchUserRentals = () => {
   return axiosInstance.get('/rentals/manage')
@@ -62,14 +59,13 @@ export const fetchUserRentals = () => {
   .catch(err => Promise.reject(err.response.data.errors))
 }
 // Clean up previous data before unmounting
-export const cleanUpRentals = () => {
-  return dispatch => {
+export const cleanUpRentals = () => dispatch => {
     dispatch({
       type: CLEAN_UP_RENTALS,
       payload: {}
     })
   }
-}
+
 // export const fetchById = (rentalId) => {
 //   return function(dispatch) {
 //     dispatch(fetchByIdInit());

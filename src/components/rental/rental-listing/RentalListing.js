@@ -30,9 +30,7 @@ function RentalListing(props) {
     )
   }
 }
-const  mapState = (state)  => { 
-  return {
+const  mapState = (state)  => ({ 
     rentals: state.data.rentals
-  }
-}
+})
 export default (connect(mapState, {fetchRentals, cleanUpRentals})(RentalListing));

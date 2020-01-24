@@ -74,7 +74,6 @@ router.post('', userCtrl.authMiddleware, createRental ,(req, res) => {
             }
             User.updateOne({_id: user.id}, {$push: {rentals: rental}}, function(err){
             });
-            console.log(rental);
             return res.json(rental)
         })
     }  

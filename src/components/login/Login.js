@@ -51,9 +51,7 @@ function Login(props) {
     );
 }
 
-const mapState = (state) => {
-  return{
+const mapState = (state) => ({
     auth: state.auth
-  }
-}
+})
 export default (connect(mapState, {login})(Login));

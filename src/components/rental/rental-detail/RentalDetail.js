@@ -13,11 +13,9 @@ function RentalDetail(props) {
   let path = props.location
   // Fetch Rentals
   useEffect(() => {
-    console.log('Fetch by id')
     fetchRentalById(rentalId);
 // CleanUp by returning an empty rental, making it display loading
     return () => { 
-      console.log('Component will Unmount');
       cleanUp()
     };
   }, [ rentalId, fetchRentalById, cleanUp]);
@@ -57,9 +55,7 @@ function RentalDetail(props) {
     ) 
   }
 }
-const mapState = state => {
-  return {
-    rental: state.data.rental
-  };
-};
+const mapState = state => ({
+    rental: state.data.rental 
+})
 export default connect(mapState, {fetchRentalById, cleanUp})(RentalDetail);

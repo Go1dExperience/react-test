@@ -39,9 +39,7 @@ function RentalSearching(props) {
         ) 
 }
 
-const  mapState = (state)  => { 
-    return {
+const  mapState = (state)  => ({ 
       rentals: state.data
-    }
-  }
+})
   export default (connect(mapState, {fetchRentals, cleanUpRentals})(RentalSearching));
