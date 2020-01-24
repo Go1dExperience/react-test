@@ -37,8 +37,8 @@ function Header(props) {
                     </button>
                     <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <Link className="dropdown-item" to="/rentals/create">Create Rental</Link>
-                        <Link className="dropdown-item" to="/rentals">Manage Rentals</Link>
-                        <Link className="dropdown-item" to="/rentals">Manage Bookings</Link>
+                        <Link className="dropdown-item" to="/rentals/manage">Manage Rentals</Link>
+                        <Link className="dropdown-item" to="/bookings/manage">Manage Bookings</Link>
                     </div>
                 </div>
             )
@@ -48,7 +48,9 @@ function Header(props) {
     return (     
             <nav className="navbar navbar-dark navbar-expand-lg">
                 <div className="container">
-                    <Link className="navbar-brand" to="/rentals">BookWithMe</Link>
+                    <Link className="navbar-brand" to="/rentals">BookWithMe
+                        <img src={process.env.PUBLIC_URL + '/image/logo.svg'} alt="" />
+                    </Link>
                    <RentalSearchInput></RentalSearchInput>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarAltMarkUp">
                         <span className="navbar-toggler-icon"></span>

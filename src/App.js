@@ -14,6 +14,8 @@ import RentalListing from './components/rental/rental-listing/RentalListing';
 import RentalDetail from './components/rental/rental-detail/RentalDetail';
 import RentalSearching from './components/rental/rental-listing/RentalSearching';
 import RentalCreate from './components/rental/rental-create/RentalCreate';
+import RentalManage from './components/rental/rental-manage/RentalManage';
+import BookingManage from './components/booking/booking-manage/BookingManage';
 
 
 
@@ -40,7 +42,9 @@ function App() {
               <Route exact path="/rentals" component={RentalListing}></Route>
   {/* Specific routes should be above, otherwise both are called */}
               <ProtectedRoute exact path="/rentals/create" component={RentalCreate}></ProtectedRoute>
-              <ProtectedRoute exact path="/rentals/:id" component={RentalDetail}></ProtectedRoute>
+              <ProtectedRoute path="/rentals/manage" component={RentalManage}></ProtectedRoute>
+              <Route exact path="/rentals/:id" component={RentalDetail}></Route>
+              <ProtectedRoute path="/bookings/manage" component={BookingManage}></ProtectedRoute>
               <Route path="/login" component={Login} ></Route>
               <LoggedInRoute path="/register" component={Register} ></LoggedInRoute>
               <Route exact path="/rentals/:city/homes" component={RentalSearching}></Route>

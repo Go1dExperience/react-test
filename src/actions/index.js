@@ -1,4 +1,4 @@
-import {FETCH_RENTALS, FETCH_BY_ID, CLEAN_UP, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, FETCH_ERRORS, CLEAN_UP_RENTALS} from './types';
+import {FETCH_RENTALS, FETCH_BY_ID, CLEAN_UP, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, FETCH_ERRORS, CLEAN_UP_RENTALS, FETCH_BOOKINGS, FETCH_BOOKINGS_ERR, CLEAN_UP_BOOKINGS} from './types';
 import axios from 'axios';
 import authService from '../services/auth-service';
 import axiosService from '../services/axios-service';
@@ -19,7 +19,7 @@ export const fetchRentals = (city) => {
         })
       })
       .catch(err => {
-        debugger;
+  
         dispatch({
           type: FETCH_ERRORS,
           payload: err.response.data.errors
@@ -55,6 +55,13 @@ export const fetchRentalById = (rentalId) => {
     // }, 1000);
     }
 }
+// Fetch a user's rentals
+export const fetchUserRentals = () => {
+  return axiosInstance.get('/rentals/manage')
+  .then(res =>  res.data)
+  .catch(err => Promise.reject(err.response.data.errors))
+}
+// Clean up previous data before unmounting
 export const cleanUpRentals = () => {
   return dispatch => {
     dispatch({
@@ -80,27 +87,28 @@ export const createRental = (data) => {
     .then(res => res.data)
     .catch(err => Promise.reject(err.response.data.errors))
 }
+// Delete Rental
+export const deleteRental = (rentalId) => {
+  return axiosInstance.delete(`/rentals/${rentalId}`)
+  .then(res => res.data)
+  .catch(errors => Promise.reject(errors.response.data.errors))
+}
 /////////////////////////////////////////////////////////////////////
 ///////////////////////////Booking Actions///////////////////////////
 export const createBooking = (booking) => {
-  debugger;
-  return axiosInstance.post('/bookings', {...booking})
+  return axiosInstance.post('/bookings', booking)
     .then(res => res.data)
     .catch(err => Promise.reject(err.response.data.errors))
     
 }
 /////////////////////////////////////////////////////////////////////
-///////////////////////////Auth Actions///////////////////////////
+///////////////////////////Auth Actions//////////////////////////////
 // Register//
 export const register = (data) => {
   return axios.post('/api/v1/users/register', data)
-  .then(
-    (res) => {
-      return res.data
-    })
-  .catch((err) => {
-    return Promise.reject(err.response.data.errors)
-  })
+  .then(res =>  res.data)
+  .catch(err => Promise.reject(err.response.data.errors)
+  )
 }
 // Check Auth State
 // Dispatch is required because this is conditional dispatch, without it function will 
@@ -141,3 +149,23 @@ export const logOut = () => {
   }
 }
 /////////////////////////////////////////////////////////////////////
+///////////////////////////Fetch User's bookings/////////////////////
+export const fetchUserBookings = () => dispatch => {
+  return axiosInstance.get('/bookings/manage')
+  .then(({data}) => 
+    dispatch({
+    type: FETCH_BOOKINGS,
+    payload: data
+  })) 
+  .catch(err => {
+    console.log(err.response.data.errors);
+    dispatch({
+    type: FETCH_BOOKINGS_ERR,
+    errors: err.response.data.errors
+  })})
+}
+export const cleanUpBookings = () => dispatch => {
+  dispatch({
+    type: CLEAN_UP_BOOKINGS
+  })
+}

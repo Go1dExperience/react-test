@@ -4,6 +4,7 @@
 @import './rental/rental-listing.scss';
 @import './rental/rental-detail.scss';
 @import './booking/booking.scss';
+@import './rental/rental-manage';
 
 html, body, #root, #root>div {
     height: 100%;
@@ -32,7 +33,7 @@ body{
     border-color: $main-color;
     color: $main-color;
     border-radius: 0;
-
+    margin: 5px;
     &:hover,
     &:focus,
     &:active {
