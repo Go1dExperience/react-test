@@ -45,3 +45,48 @@
     }
   }
   
+  .img-upload-container {
+  margin-bottom: 20px;
+  position: relative;
+
+  .img-preview-container {
+    margin: 10px 0px 0px 0px;
+    
+  }
+  .img-preview {
+    background: center no-repeat;
+    background-size: contain;
+    height: 200px;
+    width: 200px;
+  }
+
+  .img-upload {
+    margin-right: 20px;
+    margin-bottom: 0;
+    &:hover, &:focus, &:active {
+      cursor: pointer;
+    }
+  }
+
+  .upload-text {
+    font-size: 17px;
+    margin: 0;
+    font-weight: 400;
+  
+  }
+  .btn-upload {
+    color: green;
+    background-color: white;
+    border-color: green;
+    font-size: 15px;
+    margin: 5px;
+    &:hover, &:focus, &:active {
+      background-color: green!important;
+      color: white;
+      border-color: green!important;
+    }
+  }
+  .alert {
+    margin-top: 10px;
+  }
+}

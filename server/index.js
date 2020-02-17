@@ -7,6 +7,7 @@ const path = require('path');
 const rentalRoutes = require('./routes/rentals');
 const userRoutes = require('./routes/users');
 const bookingRoutes = require('./routes/booking');
+const imageUploadRoute = require('./routes/image-upload');
 // Connect to mongoose
 mongoose.connect(config.DB_URI,{useNewUrlParser: true, useUnifiedTopology: true})
 .then(() => {
@@ -28,6 +29,7 @@ app.use(express.json());
 app.use('/api/v1/rentals', rentalRoutes);
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/bookings', bookingRoutes);
+app.use('/api/v1', imageUploadRoute);
 
 if(process.env.NODE_ENV === 'production') {
     const appPath = path.join(__dirname, '..', 'build');
