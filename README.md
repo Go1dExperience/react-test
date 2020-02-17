@@ -20,4 +20,10 @@ It uses MERN stack.
     3. It uses online database of mongodb.
 
     3. To store an image, it uses aws, and communicates with it using multer, multer.s3
+    
+  Future plan
+    
+    1. Clean up the codes.
+
+    2. Implement more React hooks, such as useReducer.  
       
