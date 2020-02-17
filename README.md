@@ -2,6 +2,7 @@ This project was based on "All-In-One Angular, React & Node Course  Airbnb Style
 
 It uses MERN stack.
   On React part:
+
     1. It is rewritten in funtional component, complete with React Hooks, SCSS, various dependencies such as React-toastify, React-responsive-modal, React-image-crop... to make the app look nicer and more responsive.
 
     2. It includes basic level of React, such as React-redux, Redux-form, React-router-dom, axios-service... to help getting used to React.
