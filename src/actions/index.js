@@ -165,3 +165,14 @@ export const cleanUpBookings = () => dispatch => {
     type: CLEAN_UP_BOOKINGS
   })
 }
+/////////////////////////////////////////////////////////////////////
+///////////////////////////Upload Image//////////////////////////////
+export const uploadImage = (image) => {
+  const formData = new FormData();
+// First arg is the same as upload single fieldName in server side
+  formData.append('image', image);
+
+  return axiosInstance.post('/image/upload', formData)
+  .then((res) => res.data.imageUrl)
+  .catch((err) => Promise.reject(err.response.data.errors))
+}
