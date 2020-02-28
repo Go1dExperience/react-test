@@ -1,13 +1,12 @@
 This project was based on "All-In-One Angular, React & Node Course  Airbnb Style App" course: https://github.com/Jerga99/bwm-react
+ 
+ # On React part:
 
-It uses MERN stack.
-  On React part:
+    ** It is rewritten in funtional component, complete with React Hooks, SCSS, various dependencies such as React-toastify, React-responsive-modal, React-image-crop... to make the app look nicer and more responsive.
 
-    1. It is rewritten in funtional component, complete with React Hooks, SCSS, various dependencies such as React-toastify, React-responsive-modal, React-image-crop... to make the app look nicer and more responsive.
+    ** It includes basic level of React, such as React-redux, Redux-form, React-router-dom, axios-service... to help getting used to React.
 
-    2. It includes basic level of React, such as React-redux, Redux-form, React-router-dom, axios-service... to help getting used to React.
-
-    3. The funtional component requires rewriting a lot of the codes, since the instruction uses class-base components. Among many differences, one can get familiar to React hooks, and how it simplifies many problems class components have
+    ** The funtional component requires rewriting a lot of the codes, since the instruction uses class-base components. Among many differences, one can get familiar to React hooks, and how it simplifies many problems class components have
 
       Exp: useState hooks can replace componentDidMount, componentDidUpdate, and componentWillUnmount, which makes the code a lot shorter
 
