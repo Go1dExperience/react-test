@@ -1,34 +1,34 @@
-import {LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT} from '../actions/types';
+import { LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT } from "../actions/types";
 
 const initialState = {
     isAuth: false,
-    errors: [], 
-    username: ''
-}
+    errors: [],
+    username: "",
+};
 
-export const authReducer = (state = initialState, action ) => {
-    switch(action.type){
-        case LOGIN_SUCCESS:   
-            return{
+export const authReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case LOGIN_SUCCESS:
+            return {
                 ...state,
                 isAuth: true,
-                errors: [], 
-                username: action.username
-            }
-        case LOGIN_FAILURE:   
-            return{
+                errors: [],
+                username: action.username,
+            };
+        case LOGIN_FAILURE:
+            return {
                 ...state,
                 errors: action.errors,
-                isAuth: false
-            }
+                isAuth: false,
+            };
         case LOGOUT:
-            return{
+            return {
                 ...state,
                 isAuth: false,
                 errors: [],
-                username: ''
-            }
+                username: "",
+            };
         default:
-            return state
+            return state;
     }
-}
+};

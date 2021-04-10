@@ -1,25 +1,24 @@
-import * as jwt from 'jsonwebtoken';
-import * as moment from 'moment';
+import * as jwt from "jsonwebtoken";
+import * as moment from "moment";
 
 class AuthService {
-    
     getToken() {
-        return localStorage.getItem('auth_token')
+        return localStorage.getItem("auth_token");
     }
 
     getExpiration(token) {
-        const decoded =  jwt.decode(token)
-        return  moment.unix(decoded.exp)
+        const decoded = jwt.decode(token);
+        return moment.unix(decoded.exp);
     }
-    
+
     isValid(token) {
-        return moment().isBefore(this.getExpiration(token))
+        return moment().isBefore(this.getExpiration(token));
     }
-    addToken(token){
-        localStorage.setItem('auth_token', token);
+    addToken(token) {
+        localStorage.setItem("auth_token", token);
     }
     removeToken() {
-        localStorage.removeItem('auth_token');
+        localStorage.removeItem("auth_token");
     }
 
     getUsername() {
@@ -28,8 +27,8 @@ class AuthService {
 
     isAuthenticated() {
         const token = this.getToken();
-        return (token && this.isValid(token)) ? true : false     
-    }   
+        return token && this.isValid(token) ? true : false;
+    }
 }
 
-export default new AuthService()
+export default new AuthService();
